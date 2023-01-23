@@ -50,12 +50,16 @@ export class SlotGeneratorService implements ISlotGenerator<Edges> {
         };
 
         // Today
-        if (this.dateService.isSameDay(dateIso, currentDateIso) &&
-            this.dateService.isInRange(currentDateIso, rangeEdges)) {
-                generateSlotsDto = {
-                    ...generateSlotsDto,
-                    edges: [currentDateIso, end]
-                };
+        if (this.dateService.isSameDay(dateIso, currentDateIso)) {
+            generateSlotsDto = {
+                ...generateSlotsDto,
+                edges: [
+                    this.dateService.isBefore(currentDateIso, start)
+                        ? start
+                        : currentDateIso,
+                    end
+                ]
+            };
         }
 
         // Future
